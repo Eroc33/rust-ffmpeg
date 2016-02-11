@@ -1,3 +1,5 @@
+use std::ffi::{CStr};
+use std::str::from_utf8_unchecked;
 use ffi::*;
 
 #[derive(Eq, PartialEq, Copy, Clone, Debug)]
@@ -284,6 +286,15 @@ pub enum Pixel {
 	XYZ12,
 	NV20,
 	AYUV64,
+}
+
+impl Pixel {
+	#[inline]
+	pub fn name(&self) -> &'static str {
+		unsafe {
+			from_utf8_unchecked(CStr::from_ptr(av_get_pix_fmt_name((*self).into())).to_bytes())
+		}
+	}
 }
 
 impl From<AVPixelFormat> for Pixel {
