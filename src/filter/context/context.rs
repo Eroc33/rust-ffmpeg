@@ -53,6 +53,10 @@ impl<'a> Context<'a> {
 	pub fn set_channel_layout(&mut self, value: ChannelLayout) {
 		let _ = option::Settable::set(self, "channel_layouts", &value.bits());
 	}
+	
+	pub fn set_time_base<T: Into<Rational>>(&mut self, value: T) {
+		let _ = option::Settable::set_rational(self, "time_base", value);
+	}
 }
 
 unsafe impl<'a> option::Target for Context<'a> {
